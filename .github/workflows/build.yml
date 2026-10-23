@@ -12,14 +12,15 @@ jobs:
         with:
           python-version: '3.10'
           
-      - name: Install dependencies
+      - name: Install ALL system dependencies
         run: |
           sudo apt-get update
-          # نصب کامل تمام ابزارهای ساخت (autoconf, automake, libtool, gettext, ...)
+          # اضافه شدن ابزارهای حیاتی automake, libtool, gettext, autopoint
           sudo apt-get install -y git zip unzip openjdk-17-jdk python3-pip autoconf automake libtool pkg-config gettext autopoint zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo6 cmake libffi-dev libssl-dev liblzma-dev libbz2-dev libreadline-dev libsqlite3-dev xz-utils tk-dev
           
       - name: Clean previous build artifacts
         run: |
+          # پاک کردن کامل کش‌های خراب قبلی
           rm -rf .buildozer
           
       - name: Install Buildozer
@@ -29,7 +30,6 @@ jobs:
       - name: Build
         run: |
           export PATH=$PATH:$HOME/.local/bin
-          # فعال‌سازی حالت لاگ کامل برای دیدن جزئیات دقیق‌تر
           yes | buildozer -v android debug
           
       - name: Upload
