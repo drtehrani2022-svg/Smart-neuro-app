@@ -11,24 +11,25 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Python 3.10
+      - name: Set up Python 3.10.12
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: '3.10.12'
 
-      - name: Install system dependencies
+      - name: Install ALL system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y git zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo6 cmake libffi-dev libssl-dev
+          sudo apt-get install -y git zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo6 cmake libffi-dev libssl-dev liblzma-dev libbz2-dev libreadline-dev libsqlite3-dev xz-utils tk-dev
 
-      - name: Install Buildozer and Cython
+      - name: Install Buildozer
         run: |
           python -m pip install --upgrade pip
-          python -m pip install --user buildozer==1.5.0 cython==0.29.36 virtualenv
+          python -m pip install --user buildozer==1.5.0 cython==0.29.33 virtualenv
 
       - name: Build with Buildozer
         run: |
           export PATH=$PATH:$HOME/.local/bin
+          export CYT_HON=0.29.33
           yes | buildozer -v android debug
 
       - name: Upload APK
